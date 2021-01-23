@@ -26,19 +26,19 @@ interface IProps {
     dispatcher: IArticleDispatcher;
 }
 
-function handleDrop(data: any, e: any){
-    let files = e.dataTransfer.files;
-    if(files.length > 0){
-        let file = files[0];
-        alert('FileName : ' + file.name );
-        // any action
-    }
-} 
+// function handleDrop(data: any, e: any){
+//     let files = e.dataTransfer.files;
+//     if(files.length > 0){
+//         let file = files[0];
+//         alert('FileName : ' + file.name );
+//         // any action
+//     }
+// } 
 
-function handleImg(file: File, onSuccess: (url: string) => void) {
-    console.log("handle", file, onSuccess)
-    // onSuccess(imageUrl: string)
-}
+// function handleImg(file: File, onSuccess: (url: string) => void) {
+//     console.log("handle", file, onSuccess)
+//     // onSuccess(imageUrl: string)
+// }
 
 marked.setOptions({
     highlight: function (code, lang) {

@@ -7,7 +7,7 @@ interface IApiClient {
 }
 
 class ApiClient implements IApiClient {
-    private baseURL: string = "http://localhost:8080/twirp"
+    private baseURL: string = "https://mediago-290515.an.r.appspot.com/twirp"
 
     public post(path: string, body: any): Promise<any> {
         const headers = {
