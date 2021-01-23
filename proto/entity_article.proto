@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option go_package = "pb";
+
+import "common.proto";
+import "entity_search_highlight.proto";
+
+package entity;
+
+message ArticleID {
+    string id = 1;
+}
+
+message ArticleIDList {
+    repeated string ids = 1;
+}
+
+message ArticleIDWithPager {
+    string id = 1;
+    // common.Pager pager = 2;
+}
+
+message Article {
+    string id = 1;
+    string userID = 2;
+    string title = 3;
+    string description = 4;
+    string createdAt = 5;
+    string thumbnailURL = 6;
+    // repeated entity.SearchHighlight highlights = 6;
+}
+
+message ArticleList {
+    repeated Article items = 1;
+}
+
