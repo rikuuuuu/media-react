@@ -18,6 +18,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
+    name: Build
     runs-on: ubuntu-latest
 #     runs-on: macos-latest
 
@@ -29,9 +30,25 @@ jobs:
       - name: Install Dependencies
         run: npm install
       
-      - name: deploy to Firebase Hosting
-        run: |
-          yarn deploy --token=${{ secrets.FIREBASE_TOKEN }}
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@master
+        
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        
+#       - name: deploy to Firebase Hosting
+#         run: |
+#           firebase deploy --token=${{ secrets.FIREBASE_TOKEN }}
+      
       
 #       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
 #       - uses: actions/checkout@v2
