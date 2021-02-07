@@ -33,13 +33,13 @@ jobs:
       - name: Build
         run: npm run build
       
-  deploy:
-    name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the repository
-        uses: actions/checkout@master
+#   deploy:
+#     name: Deploy
+#     needs: build
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout the repository
+#         uses: actions/checkout@master
         
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
