@@ -72,6 +72,27 @@ const adminUserLoginReducer = (state = initialState, action: AdminUserAction): A
             }
         }
 
+        case AdminUserActionType.REQUEST_LOGOUT_ADMINUSER: {
+            return Object.assign({}, state, {
+                adminuser: state.adminuser,
+                isLoading: true,
+            });
+        }
+        case AdminUserActionType.CALLBACK_LOGOUT_ADMINUSER: {
+            const _action = action as unknown as ICallbackLoginAction;
+            if (action.isSuccess) {
+                return Object.assign({}, state, {
+                    adminuser: _action.item ? _action.item : null,
+                    isLoading: false,
+                });
+            } else {
+                return Object.assign({}, state, {
+                    adminuser: state.adminuser,
+                    isLoading: false
+                })
+            }
+        }
+
         case AdminUserActionType.REQUEST_UPDATE_ADMINUSER: {
             return Object.assign({}, state, {
                 adminuser: state.adminuser,

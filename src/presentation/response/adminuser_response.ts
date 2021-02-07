@@ -24,11 +24,9 @@ class CreateAdminUserResponse implements ICreateAdminUserResponse {
     public adminuser?: AdminUser;
 }
 
-interface ILoginAdminUserResponse {
-}
+interface ILoginAdminUserResponse {}
 
-class LoginAdminUserResponse implements ILoginAdminUserResponse {
-}
+class LoginAdminUserResponse implements ILoginAdminUserResponse {}
 
 interface IUpdateAdminUserResponse {
     adminuser: AdminUser;
@@ -38,11 +36,9 @@ class UpdateAdminUserResponse implements IUpdateAdminUserResponse {
     public adminuser!: AdminUser;
 }
 
-interface IDeleteAdminUserResponse {
-}
+interface IDeleteAdminUserResponse {}
 
-class DeleteAdminUserResponse implements IDeleteAdminUserResponse {
-}
+class DeleteAdminUserResponse implements IDeleteAdminUserResponse {}
 
 export {
     GetMeAdminUserResponse,

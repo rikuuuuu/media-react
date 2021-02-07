@@ -3,7 +3,7 @@ import { IAdminUserRepository, TUpdateAdminUserParams } from '../../../domain/re
 import firebase from 'firebase';
 import { handleErrorFirebaseAuth } from '../../../domain/usecase/error_handler_firebase';
 import { AdminUser } from '../../../domain/model/adminuser';
-// import { getToken } from './bind_token';
+import { getToken } from './bind_token';
 import { BufferWriter, Writer } from "protobufjs";
 import {
     common,
@@ -69,12 +69,12 @@ class AdminUserAPI implements IAdminUserRepository {
 
     public getMe(): Promise<AdminUser> {
         return new Promise<AdminUser>((resolve, reject) => {
-            // getToken()
-            //     .then((token: string): Promise<any> => {
+            getToken()
+                .then((token: string): Promise<any> => {
                     const req = new Empty();
                     const writer: BufferWriter | Writer = Writer.create();
-                    return this.apiClient.post("/api.AdminUserService/GetMe", Empty.encode(req, writer).finish())
-                // })
+                    return this.apiClient.postWithToken("/api.AdminUserService/GetMe", token, Empty.encode(req, writer).finish())
+                })
                 .then((binary: any) => {
                     const res = entity.AdminUser.decode(binary);
                     const resConverted = AdminUserConvertResponse.from(res);
@@ -89,14 +89,14 @@ class AdminUserAPI implements IAdminUserRepository {
 
     public getAll(page: number, offset: number): Promise<AdminUser[]> {
         return new Promise<AdminUser[]>((resolve, reject) => {
-            // getToken()
-            //     .then((token: string): Promise<any> => {
+            getToken()
+                .then((token: string): Promise<any> => {
                     const req = new Pager();
                     req.page = page
                     req.offset = offset
                     const writer: BufferWriter | Writer = Writer.create();
-                    return this.apiClient.post("/api.AdminUserService/GetAll", Pager.encode(req, writer).finish())
-                // })
+                    return this.apiClient.postWithToken("/api.AdminUserService/GetAll", token, Pager.encode(req, writer).finish())
+                })
                 .then((binary: any) => {
                     const res = AdminUserList.decode(binary);
                     const resConverted: AdminUserConvertResponseList = AdminUserConvertResponseList.from(res);
@@ -124,6 +124,18 @@ class AdminUserAPI implements IAdminUserRepository {
                     reject(handleErrorFirebaseAuth(error));
                 });
         });
+    }
+
+    public logout(): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            firebase.auth().signOut()
+                .then((): void => {
+                    resolve();
+                })
+                .catch((error: any) => {
+                    reject(handleErrorFirebaseAuth(error))
+                })
+        })
     }
 
     public create(email: string, password: string): Promise<any> {
@@ -159,14 +171,14 @@ class AdminUserAPI implements IAdminUserRepository {
 
     private createAdminUser(email: string, password: string): Promise<AdminUser> {
         return new Promise<AdminUser>((resolve, reject) => {
-            // getToken()
-            //     .then((token: string): Promise<any> => {
+            getToken()
+                .then((token: string): Promise<any> => {
                     const req = new CreateAdminUserRequest();
                     req.email = email
                     req.password = password
                     const writer: BufferWriter | Writer = Writer.create();
-                    return this.apiClient.post("/api.AdminUserService/Create", CreateAdminUserRequest.encode(req, writer).finish())
-                // })
+                    return this.apiClient.postWithToken("/api.AdminUserService/Create", token, CreateAdminUserRequest.encode(req, writer).finish())
+                })
                 .then((binary: any) => {
                     const res = entity.AdminUser.decode(binary);
                     const resConverted = AdminUserConvertResponse.from(res);
@@ -181,14 +193,14 @@ class AdminUserAPI implements IAdminUserRepository {
 
     public update(updateAdminUserParams: TUpdateAdminUserParams): Promise<AdminUser> {
         return new Promise<AdminUser>((resolve, reject) => {
-            // getToken()
-            //     .then((token: string): Promise<any> => {
+            getToken()
+                .then((token: string): Promise<any> => {
                     const req = new UpdateAdminUserReqest();
                     req.id = updateAdminUserParams.id
                     req.name = updateAdminUserParams.name
                     const writer: BufferWriter | Writer = Writer.create();
-                    return this.apiClient.post("/api.AdminUserService/Update", UpdateAdminUserReqest.encode(req, writer).finish())
-                // })
+                    return this.apiClient.postWithToken("/api.AdminUserService/Update", token, UpdateAdminUserReqest.encode(req, writer).finish())
+                })
                 .then((binary: any) => {
                     const res = entity.AdminUser.decode(binary);
                     const resConverted = AdminUserConvertResponse.from(res);
@@ -203,13 +215,13 @@ class AdminUserAPI implements IAdminUserRepository {
 
     public delete(userID: string): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            // getToken()
-            //     .then((token: string): Promise<any> => {
+            getToken()
+                .then((token: string): Promise<any> => {
                     const req = new AdminUserID();
                     req.id = userID
                     const writer: BufferWriter | Writer = Writer.create();
-                    return this.apiClient.post("/api.AdminUserService/Delete", AdminUserID.encode(req, writer).finish())
-                // })
+                    return this.apiClient.postWithToken("/api.AdminUserService/Delete", token, AdminUserID.encode(req, writer).finish())
+                })
                 .then((binary: any) => {
                     // const res = AdminUserID.decode(binary);
                     resolve(binary);

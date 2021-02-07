@@ -58,6 +58,11 @@ export class AdminUserFormComponent extends React.Component<IProps, IState> {
             this.props.dispatcher.updateAdminUser(req)
         }
 
+        const Logout = (event: any) => {
+            event.preventDefault();
+            this.props.dispatcher.logout()
+        }        
+
         return (
             <LoginFormWrapper>
                 <form onSubmit={updateSubmit}>
@@ -75,6 +80,9 @@ export class AdminUserFormComponent extends React.Component<IProps, IState> {
                         <LoginBtn type="submit" value="Submit">更新</LoginBtn>
                     </LoginBtnWrapper>
                 </form>
+                <LoginBtnWrapper>
+                        <LoginBtn onClick={Logout}>ログアウト</LoginBtn>
+                    </LoginBtnWrapper>
             </LoginFormWrapper>
         )
     }

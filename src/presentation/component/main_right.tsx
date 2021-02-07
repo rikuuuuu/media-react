@@ -41,7 +41,7 @@ export class MainRight extends React.Component<IProps, IState> {
             <RightWrapper>
                 <RightContentsWrapper>
                     <IconWrapper>
-                        <Icon src={Assets.sampleImg} />
+                        <Icon src={Assets.icon} />
                     </IconWrapper>
                     <ContentWrapper>
                         <InfoText>

@@ -8,6 +8,7 @@ export class Article {
             from.description,
             from.createdAt,
             from.thumbnailURL,
+            from.userID,
             // from.updated
             // from.message
         )
@@ -19,6 +20,7 @@ export class Article {
         public readonly description: string,
         public readonly createdAt: string,
         public readonly thumbnailURL: string,
+        public readonly userID: string,
         // public readonly updated: string
         // public readonly message: string
     ) {

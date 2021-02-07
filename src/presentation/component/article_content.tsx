@@ -10,9 +10,11 @@ import marked from 'marked';
 import highlight from 'highlightjs';
 import 'highlightjs/styles/docco.css';
 import TitleText from '../common/atom/text/title_text';
+import { AdminUser } from '../../domain/model/adminuser';
 
 interface IProps {
     article: Article | null;
+    adminUser: AdminUser | null;
 }
 
 marked.setOptions({
@@ -23,7 +25,8 @@ marked.setOptions({
 
 const ArticleContentComponent: React.FC<IProps> = (props) => {
     const {
-        article
+        article,
+        adminUser
     } = props;
 
     // const [markdown, setMarkdown] = useState('');
@@ -50,11 +53,13 @@ const ArticleContentComponent: React.FC<IProps> = (props) => {
                                 <DescriptionWrapper>
                                     <span dangerouslySetInnerHTML={{ __html: marked(article.description)}}/>
                                 </DescriptionWrapper>
-                                <BtnWrapper>
-                                    <BtnLinkDefault to={`/article_update/${article.id}`}>
-                                        編集
-                                    </BtnLinkDefault>
-                                </BtnWrapper>
+                                {adminUser && adminUser.id === article.userID &&
+                                    <BtnWrapper>
+                                        <BtnLinkDefault to={`/article_update/${article.id}`}>
+                                            編集
+                                        </BtnLinkDefault>
+                                    </BtnWrapper>
+                                }
                             </>
                         }
                     </ContentWrapper>

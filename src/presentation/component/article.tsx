@@ -4,9 +4,11 @@ import HeaderComponent from './header';
 import FooterComponent from './footer';
 import { Article } from '../../domain/model/article';
 import ArticleContentComponent from './article_content';
+import { AdminUser } from '../../domain/model/adminuser';
 
 interface IProps {
     article: Article | null;
+    adminUser: AdminUser | null;
     isLoading: boolean;
     isInit: boolean;
 }
@@ -14,6 +16,7 @@ interface IProps {
 const ArticleComponent: React.FC<IProps> = (props) => {
     const {
         article,
+        adminUser,
         isLoading,
         // isInit
     } = props;
@@ -27,6 +30,7 @@ const ArticleComponent: React.FC<IProps> = (props) => {
                     <HeaderComponent />
                     <ArticleContentComponent
                         article={article}
+                        adminUser={adminUser}
                     />
                     <FooterComponent />
                 </ArticleWrapper>

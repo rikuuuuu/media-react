@@ -1,5 +1,5 @@
 import {fork} from "redux-saga/effects";
-import { handleCreateAdminUser, handleGetMe, handleLoginAdminUser, handleUpdateAdminUser } from "./adminuser_login_handler";
+import { handleCreateAdminUser, handleGetMe, handleLoginAdminUser, handleLogoutAdminUser, handleUpdateAdminUser } from "./adminuser_login_handler";
 import {handleCreateArticle, handleDeleteArticle, handleGetAllArticle, handleGetArticle, handleUpdateArticle} from './articles_handler'
 
 function* rootHandler() {
@@ -10,6 +10,7 @@ function* rootHandler() {
     yield fork(handleDeleteArticle);
     yield fork(handleGetMe);
     yield fork(handleLoginAdminUser);
+    yield fork(handleLogoutAdminUser);
     yield fork(handleCreateAdminUser);
     yield fork(handleUpdateAdminUser);
 }

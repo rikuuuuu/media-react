@@ -6,7 +6,7 @@ import {
     entity, 
     api
 } from "../rpc/api";
-// import { getToken } from './bind_token';
+import { getToken } from './bind_token';
 import {BufferWriter, Writer} from "protobufjs";
 import { Article } from '../../../domain/model/article';
 import { ArticleConvertResponse, ArticleConvertResponseList } from './article_api_convert';
@@ -78,16 +78,16 @@ class ArticleAPI implements IArticleRepository {
 
     public create(createArticleParams: TCreateArticleParams): Promise<Article> {
         return new Promise<Article>((resolve, reject) => {
-            // getToken()
-            //     .then((token: string): Promise<any> => {
+            getToken()
+                .then((token: string): Promise<any> => {
                     const req = new CreateArticleRequest();
                     req.title = createArticleParams.title;
                     req.description = createArticleParams.description;
                     req.thumbnailURL = createArticleParams.thumbnailURL;
                     // req.createdAt = createArticleParams.createdAt;
                     const writer: BufferWriter | Writer = Writer.create();
-                    return this.apiClient.post("/api.ArticleService/Create", CreateArticleRequest.encode(req, writer).finish())
-                // })
+                    return this.apiClient.postWithToken("/api.ArticleService/Create", token, CreateArticleRequest.encode(req, writer).finish())
+                })
                 .then((binary: any) => {
                     const res = entity.Article.decode(binary);
                     const resConverted = ArticleConvertResponse.from(res);
@@ -102,16 +102,16 @@ class ArticleAPI implements IArticleRepository {
 
     public update(updateArticleParams: TUpdateArticleParams): Promise<Article> {
         return new Promise<Article>((resolve, reject) => {
-            // getToken()
-            //     .then((token: string): Promise<any> => {
+            getToken()
+                .then((token: string): Promise<any> => {
                     const req = new UpdateArticleRequest();
                     req.id = updateArticleParams.articleId;
                     req.title = updateArticleParams.title;
                     req.description = updateArticleParams.description;
                     req.thumbnailURL = updateArticleParams.thumbnailURL;
                     const writer: BufferWriter | Writer = Writer.create();
-                    return this.apiClient.post("/api.ArticleService/Update", UpdateArticleRequest.encode(req, writer).finish())
-                // })
+                    return this.apiClient.postWithToken("/api.ArticleService/Update", token, UpdateArticleRequest.encode(req, writer).finish())
+                })
                 .then((binary: any) => {
                     const res = entity.Article.decode(binary);
                     const resConverted = ArticleConvertResponse.from(res);
@@ -126,13 +126,13 @@ class ArticleAPI implements IArticleRepository {
 
     public delete(articleID: string): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            // getToken()
-            //     .then((token: string): Promise<any> => {
+            getToken()
+                .then((token: string): Promise<any> => {
                     const req = new ArticleID();
                     req.id = articleID;
                     const writer: BufferWriter | Writer = Writer.create();
-                    return this.apiClient.post("/api.ArticleService/Delete", ArticleID.encode(req, writer).finish())
-                // })
+                    return this.apiClient.postWithToken("/api.ArticleService/Delete", token, ArticleID.encode(req, writer).finish())
+                })
                 .then((binary: any) => {
                     resolve();
                 })

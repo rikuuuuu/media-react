@@ -1,9 +1,7 @@
 import { Pager } from '../../domain/model/common';
-interface IGetMeAdminUserRequest {
-}
+interface IGetMeAdminUserRequest {}
 
-class GetMeAdminUserRequest implements IGetMeAdminUserRequest {
-}
+class GetMeAdminUserRequest implements IGetMeAdminUserRequest {}
 
 interface IGetAllAdminUserRequest {
     pager: Pager;

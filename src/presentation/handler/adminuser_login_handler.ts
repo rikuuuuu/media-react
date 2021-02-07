@@ -35,6 +35,19 @@ function* handleGetMe() {
 function* handleLoginAdminUser() {
     while (true) {
         try {
+            yield take(AdminUserActionType.REQUEST_LOGOUT_ADMINUSER);
+            yield call(logoutAdminUser);
+            yield put(actionCreator.callbackLogoutAction(true));
+            yield put(push(`/`));
+        } catch (error) {
+            yield put(actionCreator.callbackLogoutAction(false));
+        }
+    }
+}
+
+function* handleLogoutAdminUser() {
+    while (true) {
+        try {
             const action: IRequestLoginAction = yield take(AdminUserActionType.REQUEST_LOGIN_ADMINUSER);
             yield call(loginAdminUser, action.item.email, action.item.password);
             const res: LoginAdminUserResponse = new LoginAdminUserResponse();
@@ -82,6 +95,10 @@ const loginAdminUser = (email: string, password: string): Promise<void> => {
     return adminUserRepository.login(email, password);
 }
 
+const logoutAdminUser = (): Promise<void> => {
+    return adminUserRepository.logout();
+}
+
 const createAdminUser = (email: string, password: string): Promise<AdminUser> => {
     return adminUserRepository.create(email, password);
 }
@@ -93,6 +110,7 @@ const updateAdminUser = (updateAdminUserParams: TUpdateAdminUserParams): Promise
 export {
     handleGetMe,
     handleLoginAdminUser,
+    handleLogoutAdminUser,
     handleCreateAdminUser,
     handleUpdateAdminUser
 }

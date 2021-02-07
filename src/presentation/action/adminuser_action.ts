@@ -15,6 +15,9 @@ export enum AdminUserActionType {
     REQUEST_LOGIN_ADMINUSER= "AUTH_REQUEST_LOGIN_ADMINUSER",
     CALLBACK_LOGIN_ADMINUSER = "AUTH_CALLBACK_LOGIN_ADMINUSER",
 
+    REQUEST_LOGOUT_ADMINUSER= "AUTH_REQUEST_LOGOUT_ADMINUSER",
+    CALLBACK_LOGOUT_ADMINUSER = "AUTH_CALLBACK_LOGOUT_ADMINUSER",
+
     REQUEST_UPDATE_ADMINUSER= "AUTH_REQUEST_UPDATE_ADMINUSER",
     CALLBACK_UPDATE_ADMINUSER = "AUTH_CALLBACK_UPDATE_ADMINUSER",
 
@@ -66,6 +69,14 @@ export interface ICallbackLoginAction extends Action {
     item?: LoginAdminUserResponse,
 }
 
+export interface IRequestLogoutAction extends Action {
+    type: AdminUserActionType.REQUEST_LOGOUT_ADMINUSER;
+}
+
+export interface ICallbackLogoutAction extends Action {
+    type: AdminUserActionType.CALLBACK_LOGOUT_ADMINUSER;
+    isSuccess: boolean;
+}
 export interface IRequestUpdateAction extends Action {
     type: AdminUserActionType.REQUEST_UPDATE_ADMINUSER;
     item: UpdateAdminUserRequest;
@@ -97,6 +108,8 @@ export type AdminUserAction =
     ICallbackCreateAction |
     IRequestLoginAction |
     ICallbackLoginAction |
+    IRequestLogoutAction |
+    ICallbackLogoutAction |
     IRequestUpdateAction |
     ICallbackUpdateAction |
     IRequestDeleteAction |
@@ -114,6 +127,9 @@ export interface IAdminUserActionCreator {
 
     requestLoginAction(item: LoginAdminUserRequest): IRequestLoginAction;
     callbackLoginAction(isSuccess: boolean, item?: LoginAdminUserResponse): ICallbackLoginAction;
+
+    requestLogoutAction(): IRequestLogoutAction;
+    callbackLogoutAction(isSuccess: boolean): ICallbackLogoutAction;
 
     requestUpdateAction(item: UpdateAdminUserRequest): IRequestUpdateAction;
     callbackUpdateAction(isSuccess: boolean, item?: UpdateAdminUserResponse): ICallbackUpdateAction;
@@ -204,6 +220,21 @@ class ActionCreater implements IAdminUserActionCreator {
             type: AdminUserActionType.CALLBACK_LOGIN_ADMINUSER,
             isSuccess,
             item,
+        };
+    };
+
+    public requestLogoutAction = (): IRequestLogoutAction => {
+        return {
+            type: AdminUserActionType.REQUEST_LOGOUT_ADMINUSER
+        };
+    };
+
+    public callbackLogoutAction = (
+        isSuccess: boolean,
+    ): ICallbackLogoutAction => {
+        return {
+            type: AdminUserActionType.CALLBACK_LOGOUT_ADMINUSER,
+            isSuccess,
         };
     };
 

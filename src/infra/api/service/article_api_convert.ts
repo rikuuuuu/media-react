@@ -10,6 +10,7 @@ class ArticleConvertResponse {
             from.description,
             from.createdAt,
             from.thumbnailURL,
+            from.userID,
             // from.updated
             // from.message
         )
@@ -21,6 +22,7 @@ class ArticleConvertResponse {
         public readonly description: string,
         public readonly createdAt: string,
         public readonly thumbnailURL: string,
+        public readonly userID: string,
         // public readonly updated: string
         // public readonly message: string
     ) {

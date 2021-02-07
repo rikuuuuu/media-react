@@ -8,10 +8,17 @@ import { AppState } from '../store/app_state';
 import { ArticleActionCreator } from '../action/articles_action';
 import { Article } from "../../domain/model/article";
 import { GetArticleByIdRequest } from "../request/article_request";
+import { AdminUserState } from "../store/adminuser_state";
+import { GetMeAdminUserRequest } from "../request/adminuser_request";
+import { AdminUserDispatcher, IAdminUserDispatcher } from "../dispatcher/adminuser_dispatcher";
+import { AdminUserActionCreator } from '../action/adminuser_action';
+import { AdminUser } from "../../domain/model/adminuser";
 
 interface IProps {
     state: ArticleState;
+    userstate: AdminUserState;
     dispatcher: IArticleDispatcher;
+    userdispatcher: IAdminUserDispatcher;
     match: any;
 }
 
@@ -35,6 +42,9 @@ export class ArticleContent extends React.Component<IProps, IState> {
             req.articleId = articleId;
             this.props.dispatcher.getArticleById(req);
         }
+
+        const userreq = new GetMeAdminUserRequest();
+        this.props.userdispatcher.getMe(userreq);
     }
 
     public componentDidUpdate(prevProps: IProps, prevState: IState) {
@@ -45,18 +55,21 @@ export class ArticleContent extends React.Component<IProps, IState> {
 
     public render(): JSX.Element {
 
-        const {state} = this.props;
+        const {state, userstate} = this.props;
         
         const {isInit} = this.state;
 
         const isLoading: boolean = state.isLoading;
 
         const article: Article | null = state.article;
-
+        
+        const adminUser: AdminUser | null = userstate.adminuser
+        
         return (
             <ArticleComponent
                 isInit={isInit}
                 article={article}
+                adminUser={adminUser}
                 isLoading={isLoading}
             />
         )
@@ -66,12 +79,14 @@ export class ArticleContent extends React.Component<IProps, IState> {
 const mapStateToProps = (state: AppState) => {
     return {
         state: state.articleActionReducer,
+        userstate: state.adminUserReducer
     };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<Action>) => {
     return {
         dispatcher: createArticleDispatcher(dispatch, ArticleActionCreator()),
+        userdispatcher: AdminUserDispatcher(dispatch, AdminUserActionCreator())
     };
 };
 

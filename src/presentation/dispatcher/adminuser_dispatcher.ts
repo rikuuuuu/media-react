@@ -12,7 +12,7 @@ interface IAdminUserDispatcher {
     getMe(item: GetMeAdminUserRequest): void;
     getAll(item: GetAllAdminUserRequest): void
     login(item: LoginAdminUserRequest): void;
-    // logout(): void;
+    logout(): void;
     createAdminUser(item: CreateAdminUserRequest): void;
     updateAdminUser(item: UpdateAdminUserRequest): void;
     deleteAdminUser(item: DeleteAdminUserRequest): void;
@@ -35,13 +35,9 @@ class Dispatcher implements IAdminUserDispatcher {
         this.dispatch(this.actionCreator.requestLoginAction(item));
     };
 
-    // public logout = (): void => {
-    //     this.dispatch(this.actionCreator.requestLogoutAction());
-    // };
-
-    // public resetPassword = (item: PasswordResetRequest): void => {
-    //     this.dispatch(this.actionCreator.requestPasswordResetAction(item));
-    // };
+    public logout = (): void => {
+        this.dispatch(this.actionCreator.requestLogoutAction())
+    };
 
     public createAdminUser = (item: CreateAdminUserRequest): void => {
         this.dispatch(this.actionCreator.requestCreateAction(item));
